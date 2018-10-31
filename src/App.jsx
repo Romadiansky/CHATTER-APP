@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [{username: "blob", content: "blobbers about"}]
+      messages: [{username: "blob", content: "blobbers about", id:"id1"}]
     };
   }
 
