@@ -35,7 +35,11 @@ class App extends Component {
   }
 
   sendMessage(text) {
-    const newMessage = {id: this.incrementID(), username: "NOT IMPLEMENTED", content: text};
+    const newMessage = {
+      id: this.incrementID(),
+      username: (this.state.currentUser ? this.state.currentUser : "Anonymous"),
+      content: text
+    };
     const messages = this.state.messages.concat(newMessage);
     this.setState({messages: messages})
   }
