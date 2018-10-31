@@ -8,6 +8,7 @@ class ChatBar extends Component {
   enterText(ev) {
     if (ev.keyCode === 13 || ev.which === 13) {
       this.props.sendMessage(ev.target.value);
+      ev.target.value = "";
     }
   }
 
