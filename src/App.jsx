@@ -12,6 +12,7 @@ class App extends Component {
     };
     this.sendMessage=this.sendMessage.bind(this);
     this.incrementID=this.incrementID.bind(this);
+    this.socket={};
   }
 
   // // Called after the component was rendered and it was attached to the
@@ -23,15 +24,17 @@ class App extends Component {
   //   }, 3000)
   // }
   componentDidMount() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    this.socket = new WebSocket("ws://localhost:3001");
+
+    // console.log("componentDidMount <App />");
+    // setTimeout(() => {
+    //   console.log("Simulating incoming message");
+    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+    //   const messages = this.state.messages.concat(newMessage)
+    //   // Update the state of the app component.
+    //   // Calling setState will trigger a call to render() in App and all child components.
+    //   this.setState({messages: messages})
+    // }, 3000);
   }
 
   sendMessage(text) {
