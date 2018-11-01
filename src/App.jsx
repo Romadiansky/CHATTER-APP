@@ -8,6 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       // nextID: 10,
+      currentUser: {name: "Anonymous"},
       messages: []
     };
     this.sendMessage=this.sendMessage.bind(this);
@@ -36,7 +37,6 @@ class App extends Component {
     // }
 
     this.socket.onmessage = ev => {
-      // console.log(ev.data, "poodle");
       let appState = this.state;
       appState.messages = appState.messages.concat(JSON.parse(ev.data));
       this.setState(appState);
@@ -53,15 +53,19 @@ class App extends Component {
     // }, 3000);
   }
 
-  sendMessage(text) {
+  sendMessage = text => {
     const newMessage = {
       // id: this.incrementID(),
-      username: (this.state.currentUser ? this.state.currentUser : "Anonymous"),
+      username: (this.state.currentUser.name),
       content: text
     };
     this.socket.send(JSON.stringify(newMessage));
     // const messages = this.state.messages.concat(newMessage);
     // this.setState({messages: messages})
+  }
+
+  setUsername = name => {
+    this.setState({currentUser: {name: name}});
   }
 
   // incrementID() {
@@ -75,7 +79,7 @@ class App extends Component {
   render() {
     return (
      <div>
-      <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage}/>
+      <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} setUsername={this.setUsername}/>
       <MessageList messages={this.state.messages}/>
      </div>
     );
