@@ -8,7 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       nextID: 10,
-      messages: [{username: "blob", content: "blobbers about", id:1}]
+      messages: []
     };
     this.sendMessage=this.sendMessage.bind(this);
     this.incrementID=this.incrementID.bind(this);
@@ -39,13 +39,13 @@ class App extends Component {
 
   sendMessage(text) {
     const newMessage = {
-      // id: this.incrementID(),
+      id: this.incrementID(),
       username: (this.state.currentUser ? this.state.currentUser : "Anonymous"),
       content: text
     };
     this.socket.send(JSON.stringify(newMessage));
-    // const messages = this.state.messages.concat(newMessage);
-    // this.setState({messages: messages})
+    const messages = this.state.messages.concat(newMessage);
+    this.setState({messages: messages})
   }
 
   incrementID() {

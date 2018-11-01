@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class ChatBar extends Component {
   constructor(props) {
     super(props);
-    this.enterText= this.enterText.bind(this);
+    this.enterText = this.enterText.bind(this);
   }
   enterText(ev) {
     if (ev.keyCode === 13 || ev.which === 13) {
