@@ -1,5 +1,6 @@
 const express = require('express');
-const SocketServer = require('ws').Server;
+const webSocket = require('ws');
+const SocketServer = webSocket.Server;
 const uuidv4 = require('uuid/v4');
 
 // Set the port to 3001
@@ -25,7 +26,15 @@ wss.on('connection', (ws) => {
   ws.on('message', function incoming(data) {
     console.log(data);
     let newMessage = JSON.parse(data);
-    console.log("stringified:", newMessage, uuidv4());
+    newMessage.id = uuidv4();
+    console.log("stringified:", newMessage);
+    wss.clients.forEach(function each(client) {
+      console.log('gotcha');
+      if (client.readyState === webSocket.OPEN) {
+        console.log('kittens');
+        client.send(JSON.stringify(newMessage));
+      }
+    });
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

@@ -7,11 +7,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextID: 10,
+      // nextID: 10,
       messages: []
     };
     this.sendMessage=this.sendMessage.bind(this);
-    this.incrementID=this.incrementID.bind(this);
+    // this.incrementID=this.incrementID.bind(this);
     this.socket={};
   }
 
@@ -26,6 +26,22 @@ class App extends Component {
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
 
+    // this.socket.connect = (event) => {
+    //   console.log("connected");
+    // }
+
+    // this.socket.onmessage = (event) => {
+    //   console.log(event);
+    //   // code to handle incoming message
+    // }
+
+    this.socket.onmessage = ev => {
+      // console.log(ev.data, "poodle");
+      let appState = this.state;
+      appState.messages = appState.messages.concat(JSON.parse(ev.data));
+      this.setState(appState);
+    };
+
     // console.log("componentDidMount <App />");
     // setTimeout(() => {
     //   console.log("Simulating incoming message");
@@ -39,22 +55,22 @@ class App extends Component {
 
   sendMessage(text) {
     const newMessage = {
-      id: this.incrementID(),
+      // id: this.incrementID(),
       username: (this.state.currentUser ? this.state.currentUser : "Anonymous"),
       content: text
     };
     this.socket.send(JSON.stringify(newMessage));
-    const messages = this.state.messages.concat(newMessage);
-    this.setState({messages: messages})
+    // const messages = this.state.messages.concat(newMessage);
+    // this.setState({messages: messages})
   }
 
-  incrementID() {
-    let state = this.state;
-    let thisID = state.nextID;
-    state.nextID += 1;
-    this.setState(state);
-    return thisID;
-  }
+  // incrementID() {
+  //   let state = this.state;
+  //   let thisID = state.nextID;
+  //   state.nextID += 1;
+  //   this.setState(state);
+  //   return thisID;
+  // }
 
   render() {
     return (
