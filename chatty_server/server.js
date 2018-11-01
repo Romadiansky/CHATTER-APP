@@ -23,15 +23,12 @@ wss.on('connection', (ws) => {
   // ws.on('open', function open() {
   //   // ws.send('something');
   // });
+
   ws.on('message', function incoming(data) {
-    console.log(data);
     let newMessage = JSON.parse(data);
     newMessage.id = uuidv4();
-    console.log("stringified:", newMessage);
     wss.clients.forEach(function each(client) {
-      console.log('gotcha');
       if (client.readyState === webSocket.OPEN) {
-        console.log('kittens');
         client.send(JSON.stringify(newMessage));
       }
     });

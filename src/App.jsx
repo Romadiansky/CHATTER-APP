@@ -42,20 +42,19 @@ class App extends Component {
       this.setState(appState);
     };
 
-    // console.log("componentDidMount <App />");
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
+    // this.socket.onmessage = ev => {
+    //   let appState = this.state;
+    //   appState.currentUser = appState.currentUser.name[ev.target.value];
+    //   this.setState(appState);
+    //   console.log(appState);
+    // }
+
   }
 
   sendMessage = text => {
     const newMessage = {
       // id: this.incrementID(),
+      type: "incomingMessage",
       username: (this.state.currentUser.name),
       content: text
     };
@@ -65,8 +64,19 @@ class App extends Component {
   }
 
   setUsername = name => {
+    const x = this.state.currentUser.name;
     this.setState({currentUser: {name: name}});
+    this.sendNotification(`${x} changed username to ${name}`);
   }
+
+  sendNotification = text => {
+    const newNotification = {
+      type: "postNotification",
+      content: text
+    };
+    this.socket.send(JSON.stringify(newNotification));
+  }
+
 
   // incrementID() {
   //   let state = this.state;
