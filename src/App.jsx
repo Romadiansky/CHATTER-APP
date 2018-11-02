@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // nextID: 10,
+      usercount: 0,
       currentUser: {name: "Anonymous"},
       messages: []
     };
@@ -22,8 +22,13 @@ class App extends Component {
 
 
     this.socket.onmessage = ev => {
+      let dataObject = JSON.parse(ev.data);
       let appState = this.state;
-      appState.messages = appState.messages.concat(JSON.parse(ev.data));
+      if (dataObject.type === "usercountUpdate") {
+        appState.usercount = dataObject.usercount;
+      } else {
+        appState.messages = appState.messages.concat(JSON.parse(ev.data));
+      }
       this.setState(appState);
     };
   }
@@ -55,7 +60,7 @@ class App extends Component {
   render() {
     return (
      <div>
-      <NavBar usercount={"tbd"}/>
+      <NavBar usercount={this.state.usercount}/>
       <ChatBar currentUser={this.state.currentUser} sendMessage={this.sendMessage} setUsername={this.setUsername}/>
       <MessageList messages={this.state.messages}/>
      </div>
