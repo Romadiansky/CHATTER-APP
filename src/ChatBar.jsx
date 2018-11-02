@@ -10,10 +10,9 @@ class ChatBar extends Component {
   enterUsername(ev) {
     if (ev.keyCode === 13 || ev.which === 13) {
       this.props.setUsername(ev.target.value);
-      ev.target.value.bold();
+      // ev.target.value.bold();
     }
   }
-
 
 
   enterText(ev) {
