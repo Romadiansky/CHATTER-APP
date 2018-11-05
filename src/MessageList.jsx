@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
+//defined message list class, get user colors and renders components to page
 class MessageList extends Component {
   constructor(props) {
     super(props);
@@ -8,8 +9,7 @@ class MessageList extends Component {
 
   render() {
     let messageComponents = this.props.messages.map(message => {
-      console.log(message);
-      return (<Message username={message.username} content={message.content} key={message.id}/>);
+      return (<Message type={message.type} userColor={message.userColor} username={message.username} content={message.content} key={message.id}/>);
     });
     return (
       <main className="messages">

@@ -4,23 +4,30 @@ import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
 
+//array of pre-approved brand colors for client to select from
+const colors = [
+"#7a47ff", "#ff9a55", "#47a4ff", "#47cfff", "#55acff", "#3fde92", "#de7f3f", "#ffd755", "#ba55ff", "#6c55ff", "#55ffbd", "#de443f", "#55ffb5", "#ff55f5", "#ff5580", "#8f3fde", "#a57cce", "#967cce", "#7c97ce", "#7cccce", "#96ce7c", "#4ca722", "#a72222", "#22a78c", "#2279a7", "#f5a6db", "#d9a6f5", "#ada6f5", "#a6e1f5", "#f9e41f"
+]
+
+//main app class
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       usercount: 0,
       currentUser: {name: "Anonymous"},
+      userColor: colors[Math.floor((Math.random() * colors.length))],
       messages: []
     };
     this.sendMessage=this.sendMessage.bind(this);
-    // this.incrementID=this.incrementID.bind(this);
     this.socket={};
   }
 
+  //what happens on in the mount stage of the lifecycle
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
 
-
+    //what happens when a message is received: data gets parsed, type gets identified and acted on appropriately, window scrolls to bottom
     this.socket.onmessage = ev => {
       let dataObject = JSON.parse(ev.data);
       let appState = this.state;
@@ -30,25 +37,32 @@ class App extends Component {
         appState.messages = appState.messages.concat(JSON.parse(ev.data));
       }
       this.setState(appState);
+      window.scroll(0, document.body.scrollHeight);
     };
   }
 
+  //client sends message to server in appropriate format
   sendMessage = text => {
     const newMessage = {
-      // id: this.incrementID(),
       type: "postMessage",
-      username: (this.state.currentUser.name),
-      content: text
+      username: this.state.currentUser.name,
+      content: text,
+      userColor: this.state.userColor
     };
     this.socket.send(JSON.stringify(newMessage));
   }
 
+  //sets username by updating state, sending notification to server and displaying notification
   setUsername = name => {
     const oldUsername = this.state.currentUser.name;
-    this.setState({currentUser: {name: name}});
-    this.sendNotification(`${oldUsername} changed username to ${name}`);
+    name = name ? name : "Anonymous";
+    if (name !== oldUsername) {
+      this.setState({currentUser: {name: name}});
+      this.sendNotification(`${oldUsername} changed username to ${name}`);
+    }
   }
 
+  //sends notification to server including type and content breakdown
   sendNotification = text => {
     const newNotification = {
       type: "postNotification",
@@ -57,6 +71,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(newNotification));
   }
 
+  //renders all relevant components to our page
   render() {
     return (
      <div>
@@ -68,11 +83,3 @@ class App extends Component {
   }
 }
 export default App;
-
-  // incrementID() {
-  //   let state = this.state;
-  //   let thisID = state.nextID;
-  //   state.nextID += 1;
-  //   this.setState(state);
-  //   return thisID;
-  // }
