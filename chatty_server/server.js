@@ -15,6 +15,7 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+//sends update when usercount changes
 function sendUsercountUpdate() {
   const usercountNotification = {
     type: "usercountUpdate",
@@ -25,25 +26,14 @@ function sendUsercountUpdate() {
   });
 }
 
-
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected', "numberOfUsers:", wss.clients.size);
   sendUsercountUpdate();
-  // const usercountNotification = {
-  //   type: "usercountUpdate",
-  //   usercount: wss.clients.size
-  // }
-  // wss.clients.forEach(function each(client) {
-  //   client.send(JSON.stringify(usercountNotification))
-  // });
 
-  // ws.on('open', function open() {
-  //   // ws.send('something');
-  // });
-
+//handles what happens when a message is submitted; identifies message type and sends the appropriate message to the server
   ws.on('message', function incoming(data) {
     let newMessage = JSON.parse(data);
     newMessage.id = uuidv4();

@@ -9,7 +9,7 @@ const colors = [
 "#7a47ff", "#ff9a55", "#47a4ff", "#47cfff", "#55acff", "#3fde92", "#de7f3f", "#ffd755", "#ba55ff", "#6c55ff", "#55ffbd", "#de443f", "#55ffb5", "#ff55f5", "#ff5580", "#8f3fde", "#a57cce", "#967cce", "#7c97ce", "#7cccce", "#96ce7c", "#4ca722", "#a72222", "#22a78c", "#2279a7", "#f5a6db", "#d9a6f5", "#ada6f5", "#a6e1f5", "#f9e41f"
 ]
 
-//main app class
+//main app class, defines state, binds 'this'
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,11 +23,11 @@ class App extends Component {
     this.socket={};
   }
 
-  //what happens on in the mount stage of the lifecycle
+  //handles what happens in the mount stage of the lifecycle
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
 
-    //what happens when a message is received: data gets parsed, type gets identified and acted on appropriately, window scrolls to bottom
+    //handles what happens when a message is received: data gets parsed, type gets identified and acted on appropriately, window scrolls to bottom
     this.socket.onmessage = ev => {
       let dataObject = JSON.parse(ev.data);
       let appState = this.state;
@@ -41,7 +41,7 @@ class App extends Component {
     };
   }
 
-  //client sends message to server in appropriate format
+  //sends message to server with the appropriate type
   sendMessage = text => {
     const newMessage = {
       type: "postMessage",

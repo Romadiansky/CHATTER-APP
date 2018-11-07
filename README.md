@@ -1,21 +1,22 @@
-npReact Boilerplate
+# Chatter
 =====================
 
-A minimal and light dev environment for ReactJS.
+Chatter:copyright: is a minimalist chat environment that supports an arbitrary number of users at a given time. No login or username is required to enjoy this platform. And we promise, this chatroom will never become busject to the annoying constraints of cersorship imposed by moderators or other methods.
 
-### Usage
+### Features
 
-Clone the boilerplate and create your own git repo.
+> Choose a username at any time. Or don't, and enjoy the mystery of Anonymity. A notification will be sent out whenever you or anyone update their username.
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+> Ever wonder what colour you would be if you were to be a colour? Wonder no more; our trusted colour selector will just tell you as soon as your send a message. No annoying questionaire required. As an added perk, this is also helpful in keeping track of your conversations, especially if more than one friend takes advantage of the aforementioned Anonymity feature.
 
-Install the dependencies and start the server.
+> Track how many users are tuned in with our live usercount feature at the top right corner of the chatroom, and enjoy uninhibited conversation.
+
+### What you need to know
+
+1. Install the necessary dependencies
+2. Start the server
+3. Invite fellow chatters and chatter the night away
+
 
 ```
 npm install
@@ -23,19 +24,6 @@ npm start
 open http://localhost:3000
 ```
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
 
 ### Dependencies
 

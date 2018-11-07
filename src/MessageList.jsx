@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
 
-//defined message list class, get user colors and renders components to page
+//defines message list class, gets user colors and renders components to page
 class MessageList extends Component {
   constructor(props) {
     super(props);
